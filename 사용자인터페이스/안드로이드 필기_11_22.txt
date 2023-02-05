@@ -1,0 +1,238 @@
+android:scaleType="fixXY" : X축Y축에 맞춤
+android:adjustViewBounds="true" : 이미지 크기를 조정
+-----------------------------------------------------------------------------------------	
+19-11-08 (금)
+
+Bundle implements Parcelable ! 
+Intent class 안에 번들이 있음 private Bundle mExtras
+
+* 명시적, Explicit Intent - Component : 같은 앱에 있는 다른 컴포넌트를 사용할 때
+ 
+Intent intent = new Intent(this, A2Activity2.class // 클래스 타입 리터널)
+startActivity(intent);
+ 
+= startActiviyu(new intent(this, A2Activity.class));
+
+☆ Manifest 에서 android:exported = "false" 하면 외부에서 호출을 거절한다.
+
+* 암시적, Implicit - Action , Category , Data 
+
+startActivity(intent) 가 category 하나를 추가해줌
+"android.intent.category.DEFAULT"
+안드로이드에는 인텐트가 있지.인텐트안에는 카테고리가 있지. 카테고리 안에는 디펄트가 있지.
+액티비티에 한해서. 
+
+(Rule) Intent Filter
+* Intent Filter에는 Scheme , Host , Port , Path 만 쓸 수 있다. 
+(Query, Fragmet, Authority , Last Path Segment 불가)
+
+* Path 대신 유연함을 위해 pathPrefix , pathPattern(".*")  
+
+Extra , Flag - Type과 상관없이 Set 가능
+
+----------------------------------------------------------------------------------------------
+19-11-12 (화)
+
+- File I/O
+- "sharedPreferences" Map처럼 key값을 넣어서 value를 획득
+  설정파일, 설정내용, 간단한 몇개의 데이터
+
+- DB (비유: O/S - Folder - File)
+ RDBMS : 소프트웨어 종류 (DataBaseManagementSystem)
+ database 
+
+DBMS 안에는 DB, DB 안에는 Table (데이터를 받을때도 Table 모양)
+
+(Programming Model)사용법: DB를 연다(파일을 여는 것과 동일) -> 읽고 쓴다 -> 닫는다
+getWritableDatabase() : DB를 연다(reading and writing) /getReadableDatabase() : DB를 읽기만 가능
+SQLiteOpenHelper (class) 
+"insert + 테이블명 (필드명) + values (?,?)"
+limit number 보여주는 데이터 갯수(number)
+----------------------------------------------------------------------------------------------
+
+writer= new FileWriter(file, true);
+        한쪽 끝 / 덧붙이기 true false?
+
+이름규칙 : FileReader / FileWriter (문자들이 돌아다님)
+   FileInputStream / FileOutputStream (0 or 1)
+
+모든 파일은 바이너리 파일. Read/Write ()
+Buffer : 속도
+----------------------------------------------------------------------------------------------
+19-11-15 (금)
+
+암식적 인텐트 : 액션, 카테고리, 데이터 
+	        필드가 없을 수도 있음.
+
+Intent에 액션은 하나, 카테고리를 여러개(collection), 데이터는 하나 set 가능
+암시적 인‎텐트를 컴포넌트에 보냈는데 인텐트 필터를 통과
+
+* Rule :
+	3 part가 다 통과해야함. (Action , Category , Data)
+	- Action Part Test
+		기술한 게 있어야 함	
+	- Category Part Test
+		나열한게 인텐트 필터에 다 있어야함
+	- Data Part Test 
+		나열한게 인텐트 필터에 다 있어야함
+인텐트에 넣은 요소애 인텐트 필터에 대응하는 요소가 있어야함
+(Mapping)
+
+ Rule	: 인텐트에 아무것도 넣지 않았을 때 인텐트 필터를 통과
+	- Action Part
+		인텐트 필터측에 액션태그가 최소 하나라도 있어야 함 
+	- Category Part
+		무조건 통과 ( 0개 ~ N개 상관없음)
+	* startAcitivty 를 하는 Intent 에만 default 자동 추가
+	 액티비티를 실행하는 경우에만 인텐트 필터측에 꼭 추가되어야한다.
+	- Data Part
+		데이터를 쓰지않으면 인텐트 필터측은 없음
+
+
+uri - 하나
+(path를 쓰고 싶으면 scheme, host는 써야됨 / host만 쓰고싶어도 schem은 써야함) 
+mimeType - 여러개 (하나만 매칭되도 통과)
+
+new Activtiy -> framework 
+onResumed 상태일 때는 화면에 보임 + 이벤트 처리 가능
+onPuased 상태일 때는 화면에 보임 + 이벤트 처리 불가
+onstopd 상태일 때는 화면에 안 보임
+onDestroied 상태일 때는 빼낼 수 있는 마지막 기회임
+
+isFinishing(true) : 의도로 죽음 / (false) 사고로 죽음		
+화면에서 사라지면 (x) -> activity가 감춰지면 (o) : onStop - Restart - onStart
+
+----------------------------------------------------------------------------------------------
+11-22 (금)
+
+시스템 환경 변화에 의한 종료
+: 디바이스의 방향 전환시 새로운 생성 주기,, instance도 다름
+
+onConfigureationChanged Java소스에 추가
+Manifeset android;configChanges ="-" 추가
+
+데이터를 저장하고 복원하기 위한 생명주기함수
+onRestoreInstanceState, onSaceInstanceState
+onPause()와 onSaceInstanceState는 묶음으로
+
+태스크 stack 안에 액티비티도 stack
+화면에 보이는 task와 acitvity가 stack의 제일 위
+
+Task의 속성 affinity
+activtity의 속성은 taskAffinity
+
+Multiple_Task 는 혼자 쓰지 않는다, 무조건 새로운 task안에 들어간다
+162page
+
+------------------------------------------------------------------------------------
+12-03 (화)
+안드로이드 프로세스와 스레드
+
+- 스레드 : 프로세스를 실행하는 주체, 실행을 제어하는 애 
+ 프로그램 실행 -> 메모리 올라옴(프로세스) -> CPU : 문장 get 
+- 프로세스 안에 스레드는 무조건 하나는 생성
+-프로세스 안에 실행이 여러개 : Multi-Thread
+- 스레드를 정의할 함수 : run / 실행할 함수 객체.start() => 스레드 생성 및 실행
+
+Problem : 한 변수를 여러 스레드가 동시 접근하면 제어하기 어려움
+syncronized : 한 스레드만 실행, 나머지는 대기 제어(동기화)
+
+메인스레드가 못하는 작업이 有
+ANR dialog 
+액티비티 - 5초 이상 반응하지 않을 때 dialog 발생
+-> main thread 5초 이상 걸리는 일을 직접하면 안됨, 별도의 스레드를 만든다
+
+결론 : 오래걸리는 작업은 worker thread로 빼자   
+Thread thread = new Thread("이름")
+
+워커 스레드가 못하는 작업도 有 : 화면을 그리는 코드는 메인메서드가 해야함
+
+핸들러 2가지 역할 : 1. 메시지를 전달 2. 메세지 안에 실행된 일을 담을 수 있음
+
+Runnalbe callback; Handelr target; 
+callback { run() excution} if callback=null : Handler { 
+handleMessage() execution } 
+
+handler는 message에 대한 참조를 가지고 있음 (객체가 들어가는게 아님)
+
+------------------------------------------------------------------------------------
+12-06 (금)
+Handler.post 핸들러가 내부에서 메세지 만들어서 보냄
+send(Message) 우리가 메세지 만들어서 보냄
+
+runnable - call back
+handler - target
+
+handelr 로 메세지를 얻으면 target과 필드값을 얻음
+
+
+doinbackground {
+	onProgressUpdate x -> publishProgress
+}
+
+
+java 
+interrupt 
+
+isCanclled() == --- return true
+---> interrupt , catch {}
+
+실행중에 interrupt와도 계속 진행.
+sleep, join, wait으로 잠깐 멈추면 Exception 발생
+------------------------------------------------------------------------------------
+2019-12-10 (화)
+
+CountDownTimer
+서비스 - 작업 스레드의 컨테이너
+외부에서 오는 명령 : 출발해라 끝내라 -> 스타티드 서비스
+
+죽이는건 OS가 . 액티비티 매니저가 adj를 조정
+adj = system
+persistent
+foreground
+background
+perceptible
+
+onGround notification 
+
+------------------------------------------------------------------------------------
+2019-12-13 (금)
+onBind -> 최초의 바인드 서비스에만 호출
+onUnbind -> 마지막 서비스가 onUnbind 호출가능
+
+스타티드와 바운드 모두 구현가능
+
+onConnectedService : 연결이 됬을 때 호출
+onServiceDisconnected : 통신 중 연결이 끊어졌을 때
+			연결한적이 없는데 해제 됬을 때
+
+onBind return type IBinder . 
+
+interface 
+stub 외우두기.. 인터넷상 통신용어, 클래스
+
+start bind unbind stop
+
+bindservice ( - , - , 0 )
+* 0 : start와 stop 사이에 unbind를 하겠다.
+    start와 stop 사이에서만 연결해주고 연결 끊어주고
+start - bind - unbind - stop (o) 스타티드 앤 바운드 서비스
+bind - start - unbind - stop  (펜딩)
+start 해줘야 펜딩됬던 애들이 연결됨
+stop - unbind : ondisconnectedService 호출됨
+안끊났는데 서비스 죽음
+
+* BIND_AUTO_CREATE : 스타티드 서비스가 기생
+bound 서비스에 접근할 때, onCreate/onBind 자동생성
+unbind 되야 종료함. (unbind - stop 순으로)
+stop 먼저나오면 펜딩.
+
+내부 바운드 서비스
+클라이언트는 내 앱에서만 사용가능
+AIDL(서로 다른 앱 통신) 필요x
+
+스타트와 스탑으로만 동작 : 스타티드
+
+
+
+	

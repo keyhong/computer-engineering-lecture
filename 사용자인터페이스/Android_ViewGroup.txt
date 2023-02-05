@@ -1,0 +1,55 @@
+LinearLayout - LinearLayout 
+		- android : orientation
+		- android : baselineAligned
+		- android : baselineAlignedChildIndex
+		- android : gravity = "left, right, top, bottom, center_vertical, center_horizontal, center"
+		- android : weightSum
+		- android : measureWithLargestChild
+
+                   - LinearLayout.LayoutParams 
+		- android : layout_weight
+		- android : layout_gravity
+
+	      - TableLayout
+		- android : collapseColumns (지정한 열을 제거한다)
+		- android : shrinkColums (지정한 열의 너비를 줄인다)
+		- android : stretchColums (지정한 열의 너비를 늘린다)
+	      
+	      - TableRow.LayoutParams
+		- android : layout_columns (해당 Row내의 View의 Column을 지정한다)
+		- android : layout_span (해당 View를 지정한 숫자만큼 너비를 늘린다)
+
+RelativeLayout - RelativeLayout 
+		- android : gravity
+		- android : ignoreGravity = "@id/~" (id의 위치설정을 무시한다, 한번만 적용)
+	        - RelativeLayout.LayoutParams
+		- android : layout_(alignParentLeft , alignParentRight , alignParentTop, aligneParentBottom,
+				centerHorizontal, centerVertical, centerInParent ) = "@id/~"
+		- android : layout_(toLeftOf, alignLeft , toRightOf, alignRight , above, alignTop, below, alignBottom,
+ 				alignBaseline)
+		- android : alignWithParentIfMissing
+
+FrameLayout - FrameLayout
+		- android : foregroundGravity
+		- android : measureAllChildren
+
+	      - FrameLayout.LayoutParams
+		- android : layout_gravity = "left, right, top, bottom, center_vertical, center_horizontal, center"
+		- android : columnOrderPreserved
+		- android : rowOrderPreserved 
+
+GridLayout - GridLayout
+		- android : orientation
+		- android : rowCount
+		- android : columnCount
+		- android : alignmentMode = "alignMargins" (default) , "alignBounds"
+		- android : columnOrderPreserved
+		- android : rowOrderPreserved
+		- android : useDefaultMargins (실용성이 없다)
+	  - GridLayout.Params
+		- android : layout_grivity
+		- android : layout_row
+		- android : layout_column
+		- android : layout_rowSpan
+		- android : layout_columnSpan
+	- Space		
